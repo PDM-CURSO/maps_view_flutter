@@ -20,95 +20,32 @@ class MapaProvider with ChangeNotifier {
 
   // 2)
   Future<void> onMapCreated(controller) async {
-    mapController = controller;
-    await getCurrentPosition();
-    notifyListeners();
+    // TODO: assign controller
   }
 
   // 4)
   void setMarker(LatLng coord) async {
-    // get address
-    String _markerAddress = await _getGeocodingAddress(
-      Position(
-        latitude: coord.latitude,
-        longitude: coord.longitude,
-        altitude: 0.0,
-        speed: 0.0,
-        accuracy: 0.0,
-        speedAccuracy: 0.0,
-        timestamp: DateTime.now(),
-        heading: 0.0,
-      ),
-    );
-    // add my  marker
+    // TODO: get address using LatLng
 
-    mapMarkers.add(
-      Marker(
-        markerId: MarkerId(coord.toString()),
-        position: coord,
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
-        infoWindow: InfoWindow(
-          title: coord.toString(),
-          snippet: _markerAddress,
-        ),
-      ),
-    );
-    notifyListeners();
+    // TODO: add my  marker
   }
 
   // 3)
   Future<void> getCurrentPosition() async {
-    // verify permissions
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied ||
-        permission == LocationPermission.deniedForever) {
-      permission = await Geolocator.requestPermission();
-    }
+    // TODO: verify location permissions
 
-    // get current position
-    currentPosition = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    // TODO: get current position
 
-    // get address
-    String _currentAddress = await _getGeocodingAddress(currentPosition!);
+    // TODO: get address using current user's position
 
-    // add marker
-    mapMarkers.add(
-      Marker(
-        markerId: MarkerId(currentPosition.toString()),
-        position: LatLng(currentPosition!.latitude, currentPosition!.longitude),
-        infoWindow: InfoWindow(
-          title: currentPosition.toString(),
-          snippet: _currentAddress,
-        ),
-      ),
-    );
+    // TODO: add a marker on the map view
 
-    // move camera
-    mapController?.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: LatLng(
-            currentPosition!.latitude,
-            currentPosition!.longitude,
-          ),
-          zoom: 15.0,
-        ),
-      ),
-    );
+    // TODO: move camera to the current user's location
   }
 
   // 5)
   Future<String> _getGeocodingAddress(Position position) async {
-    // geocoding
-    var places = await placemarkFromCoordinates(
-      position.latitude,
-      position.longitude,
-    );
-    if (places != null && places.isNotEmpty) {
-      final Placemark place = places.first;
-      return "${place.thoroughfare}, ${place.locality}";
-    }
-    return "No address available";
+    // TODO: inverted geocoding to get text address
+    return "";
   }
 }
